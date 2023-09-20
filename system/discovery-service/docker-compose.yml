@@ -1,0 +1,10 @@
+version : "3.9"
+services:
+  discovery-service:
+    container_name: discovery-service
+    image: jameskeen/discovery-service:code
+    ports:
+      - "8761:8761"
+    environment:
+      - EUREKA_SERVER = host.docker.internal:8761/
+      - CONFIG_SERVER = host.docker.internal:9999/

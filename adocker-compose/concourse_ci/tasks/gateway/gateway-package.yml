@@ -1,0 +1,21 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: maven
+    tag: 3.9.3-amazoncorretto-20
+
+inputs:
+  - name: sineb-backend-service
+#output:
+#  - name: target-jar
+
+run:
+  path: "mvn"
+  args:
+    - -f
+    - sineb-backend-service/gateway-service/pom.xml
+    - clean
+    - package

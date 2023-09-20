@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: ${EUREKA_NAME}
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+
+server:
+  port: ${SERVER_PORT}
+
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+
+logging:
+  level:
+    com:
+      netflix:
+        eureka: off

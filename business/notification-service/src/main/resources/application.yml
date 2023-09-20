@@ -1,0 +1,44 @@
+server:
+  port: ${SERVER_PORT}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka/}
+
+spring:
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+  application:
+    name: notification-service
+  r2dbc:
+    url: r2dbc:postgresql://${POSTGRES_SQL_HOST}:${POSTGRES_SQL_PORT}/${POSTGRES_SQL_DB}
+    username: ${POSTGRES_SQL_USERNAME}
+    password: ${POSTGRES_SQL_PASSWORD}
+    pool:
+      max-size: 100
+      max-acquire-time: 1000
+
+#spring:
+#  profiles:
+#    active: ${ACTIVE_PROFILE:dev}
+#  application:
+#    name: notification-service
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://${POSTGRES_SQL_HOST}:${POSTGRES_SQL_PORT}/${POSTGRES_SQL_DB}
+#    username: ${POSTGRES_SQL_USERNAME}
+#    password: ${POSTGRES_SQL_PASSWORD}
+#
+#  jpa:
+#    show-sql: true
+#    generate-ddl: true
+#    hibernate:
+#      ddl-auto: update
+#    database: postgresql
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#    properties:
+#      hibernate:
+#        format_sql: true
+
+#https://www.youtube.com/watch?v=4--WIpKOssI&t=340s

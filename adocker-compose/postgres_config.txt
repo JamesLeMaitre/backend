@@ -1,0 +1,9 @@
+==========================Commande pour augmenter le nombre de connexion===============================
+
+sudo nano /etc/postgresql/{version}/main/postgresql.conf
+
+
+max_connections = 100
+
+
+sudo service postgresql restart

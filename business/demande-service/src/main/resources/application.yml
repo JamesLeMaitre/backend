@@ -1,0 +1,84 @@
+server:
+  port: ${SERVER_PORT}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka/}
+
+spring:
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+  application:
+    name: demande-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/sineb_demande
+    username: postgres
+    password: root
+
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: "localhost:9092","localhost:9093","localhost:9094"
+          consumer-properties:
+            max.poll.records: 100
+            key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            value.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            auto-create-topics: true
+        bindings:
+          eventCivilityConsumer-in-0:
+            consumer:
+              enable-dlq: true
+              dlq-name: "civility.errors"
+              dlq-partitions: 5
+          eventPaysConsumer-in-0:
+            consumer:
+              enable-dlq: true
+              dlq-name: "pays.errors"
+              dlq-partitions: 5
+      bindings:
+        eventCivilityConsumer-in-0:
+          group: civility-consumer-group
+          destination: civility
+          consumer:
+            max-attempts: 5
+            back-off-initial-interval: 100
+            default-retryable: true
+        eventPaysConsumer-in-0:
+          group: pays-consumer-group
+          destination: pays
+          consumer:
+            max-attempts: 5
+            back-off-initial-interval: 100
+            default-retryable: true
+        eventTypeStructureConsumer-in-0:
+          group: type-structure-consumer-group
+          destination: type-structure
+          consumer:
+            max-attempts: 5
+            back-off-initial-interval: 100
+            default-retryable: true
+        eventTypeCompteConsumer-in-0:
+          group: type-compte-consumer-group
+          destination: type-compte
+          consumer:
+            max-attempts: 5
+            back-off-initial-interval: 100
+            default-retryable: true
+    function:
+      definition: eventCivilityConsumer; eventPaysConsumer, eventTypeStructureConsumer
+
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        format_sql: true
+rsa:
+  public-key: classpath:certs/public.pem

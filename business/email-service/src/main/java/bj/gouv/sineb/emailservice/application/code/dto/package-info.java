@@ -1,0 +1,1 @@
+package bj.gouv.sineb.emailservice.application.code.dto;

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>bj.gouv.sineb</groupId>
+        <artifactId>backend</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>business</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>aae-service</module>
+        <module>admin-service</module>
+        <module>ddb-service</module>
+        <module>demande-service</module>
+        <module>email-service</module>
+        <module>notification-service</module>
+        <module>ppe-service</module>
+        <module>rbdd-service</module>
+        <module>rc-service</module>
+        <module>sgcp-service</module>
+        <module>sie-service</module>
+        <module>sig-service</module>
+    </modules>
+
+</project>

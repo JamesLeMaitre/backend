@@ -1,0 +1,35 @@
+apiVersion: apps/code
+kind: Deployment
+metadata:
+  name: sineb-discovery-service-deployment
+  labels:
+    app: discovery-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: discovery-service
+  template:
+    metadata:
+      labels:
+        app: discovery-service
+    spec:
+      containers:
+        - name: discovery-service
+          image: pyayi/discovery-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8761
+---
+apiVersion: code
+kind: Service
+metadata:
+  name: sineb-dicovery-service-node-port
+spec:
+  selector:
+    app: discovery-service
+  type: NodePort
+  ports:
+    - port: 8761
+      targetPort: 8761
+      nodePort: 31000

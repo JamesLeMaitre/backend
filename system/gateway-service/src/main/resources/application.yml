@@ -1,0 +1,71 @@
+#Logging
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        cloud.gateway.route.RouteDefinitionRouteLocator: INFO
+        cloud.gateway: TRACE
+        security: TRACE
+server:
+  port: ${SERVER_PORT}
+
+#Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER:http://${EUREKA_HOST}:${EUREKA_PORT}/eureka/}
+app:
+  eureka-server: localhost
+
+spring:
+  application:
+    name: api-gateway
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+  #Spring cloud
+  cloud:
+    gateway:
+      #Auth Service Route
+      routes[0]:
+        id: auth-route
+        uri: lb://auth-service
+        predicates[0]: Path=/api/auth/**
+
+      #Base resources Service Route
+      routes[1]:
+        id: event-log-route
+        uri: lb://event-log-service
+        predicates[0]: Path=/api/logs/**
+
+        ## Discover Server Route
+      routes[2]:
+        id: service-registry
+        uri: http://${app.eureka-server}:${EUREKA_PORT}
+        predicates[0]: Path=/eureka/web
+        filters[0]: SetPath=/
+
+        ## Discover Server Static Resources Route
+      routes[3]:
+        id: service-registry-static
+        uri: http://${app.eureka-server}:8761
+        predicates[0]: Path=/eureka/**
+
+      #Email resources Service Route
+      routes[4]:
+        id: email-route
+        uri: lb://email-service
+        predicates[0]: Path=/api/v1/email/**
+
+      #ddb resources Service Route
+      routes[5]:
+        id: ddb-route
+        uri: lb://ddb-service
+        predicates[0]: Path=/api/v1/ddb/**
+
+
+      #Demande resources Service Route
+      routes[6]:
+        id: demande-route
+        uri: lb://demande-service
+        predicates[0]: Path=/api/v1/demande/**

@@ -1,0 +1,68 @@
+server:
+  port: ${SERVER_PORT}
+
+
+eureka:
+  client.service-url:
+    defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
+
+
+spring:
+  mail:
+    host: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    username: marcobignandi@gmail.com
+    password: ovdfsyearonnckdd
+  profiles:
+    active: dev
+  application.name: email-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${POSTGRES_SQL_HOST}:${POSTGRES_SQL_PORT}/${POSTGRES_SQL_DB}
+    username: ${POSTGRES_SQL_USERNAME}
+    password: ${POSTGRES_SQL_PASSWORD}
+
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:29092
+          producer-properties:
+            key.serializer: "org.apache.kafka.common.serialization.StringSerializer"
+        bindings:
+          routing-processor-in-0.consumer.configuration.value.deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+          routing-processor-out-0.producer.configuration.value.serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      bindings:
+        eventConsumer-in-0:
+          destination: mails
+          group: mail-consumer-group
+    function:
+      definition: eventConsumer
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 5MB
+      max-request-size: 10MB
+      file-size-threshold: 2MB
+email:
+  username: marcobignandi@gmail.com
+  password: ovdfsyearonnckdd
+
+upload:
+  directory: ${user.home}/uploads
+
+rsa:
+  public-key: classpath:certs/public.pem

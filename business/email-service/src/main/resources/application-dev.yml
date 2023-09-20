@@ -1,0 +1,16 @@
+#SERVER
+SERVER_PORT: 8086
+ACTIVE_PROFILE: dev
+
+#DATABASE
+POSTGRES_SQL_HOST: localhost
+POSTGRES_SQL_USERNAME: postgres
+POSTGRES_SQL_PASSWORD: root
+POSTGRES_SQL_DB: sineb_email
+POSTGRES_SQL_PORT: 5432
+
+
+ACCESS_TOKEN_PRIVATE_KEY_PATH: access-refresh-token-keys/access-token-private-key
+ACCESS_TOKEN_PUBLIC_KEY_PATH: access-refresh-token-keys/access-token-public-key
+REFRESH_TOKEN_PRIVATE_KEY_PATH: access-refresh-token-keys/refresh-token-private-key
+REFRESH_TOKEN_PUBLIC_KEY_PATH: access-refresh-token-keys/refresh-token-public-key

@@ -1,0 +1,88 @@
+resources:
+  - name: sineb-backend-service
+    type: git
+    source:
+      uri: git@gitlab.com:sinebbj/backend.git
+      private_key: ((github-private-key))
+      branch: master
+
+#  - name: sineb-service-docker-repository-discovery
+#    type: docker-image
+#    source:
+#      email: ((docker-hub-email))
+#      username: ((docker-hub-username))
+#      password: ((docker-hub-password))
+##      repository: ((docker-hub-username))/((docker-hub-repo-name))
+#      repository: ((docker-hub-username))/discovery-service
+
+  - name: sineb-service-docker-repository-gateway
+    type: docker-image
+    source:
+      email: ((docker-hub-email))
+      username: ((docker-hub-username))
+      password: ((docker-hub-password))
+      #      repository: ((docker-hub-username))/((docker-hub-repo-name))
+      repository: ((docker-hub-username))/gateway-service
+caches:
+  - path: $HOME/.m2/repository
+
+
+jobs:
+#  - name: discovery-test
+#    public: true
+#    serial: true
+#    plan:
+#      - get: sineb-backend-service
+#        trigger: true
+#      - task: discovery-test
+#        file: "sineb-backend-service/concourse_ci/tasks/discovery/discovery-test.yml"
+#
+#
+#  - name: discovery-package
+#    public: true
+#    serial: true
+#    plan:
+#      - get: sineb-backend-service
+#        trigger: true
+#        passed: [discovery-test]
+#      - task: backend-package
+#        file: "sineb-backend-service/concourse_ci/tasks/discovery/discovery-package.yml"
+#      - put: sineb-service-docker-repository-discovery
+#        params:
+#         build: sineb-backend-service/discovery-service/
+
+
+#  - name: deploy
+#    public: true
+#    serial: true
+#    plan:
+#      - get: sineb-backend-service
+#        trigger: true
+#        passed: [discovery-package]
+#
+#      - put: sineb-service-docker-repository
+#        params:
+#          file: "sineb-backend-service/sineb-backend-deploy.yml"
+
+#  - name: gateway-test
+#    public: true
+#    serial: true
+#    plan:
+#      - get: sineb-backend-service
+#        trigger: true
+#        passed: [discovery-package]
+#      - task: gatewat-test
+#        file: "sineb-backend-service/concourse_ci/tasks/gateway/gateway-test.yml"
+
+  - name: gateway-package
+    public: true
+    serial: true
+    plan:
+      - get: sineb-backend-service
+        trigger: true
+#        passed: [gateway-test]
+      - task: backend-package
+        file: "sineb-backend-service/concourse_ci/tasks/gateway/gateway-package.yml"
+      - put: sineb-service-docker-repository-gateway
+        params:
+          build: sineb-backend-service/gateway-service/
